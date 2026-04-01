@@ -966,6 +966,8 @@ export interface GlobalServicesOptions {
 	durableObjectClassNames: DurableObjectClassNames;
 	/** Pass Workflow configuration for the explorer worker */
 	workflowOptions?: Map<string, WorkflowOption>;
+	/** If set, the stream service is enabled and requests to /cdn-cgi/stream/ will be forwarded to this service */
+	streamServiceName?: string;
 }
 export function getGlobalServices({
 	sharedOptions,
@@ -976,6 +978,7 @@ export function getGlobalServices({
 	proxyBindings,
 	durableObjectClassNames,
 	workflowOptions,
+	streamServiceName,
 }: GlobalServicesOptions): Service[] {
 	// Collect list of workers we could route to, then parse and sort all routes
 	const workerNames = [...allWorkerRoutes.keys()];
@@ -1028,6 +1031,15 @@ export function getGlobalServices({
 			name: CoreBindings.SERVICE_LOCAL_EXPLORER,
 			service: {
 				name: SERVICE_LOCAL_EXPLORER,
+			},
+		});
+	}
+	if (streamServiceName !== undefined) {
+		serviceEntryBindings.push({
+			name: CoreBindings.SERVICE_STREAM,
+			service: {
+				name: streamServiceName,
+				entrypoint: "StreamBinding",
 			},
 		});
 	}
