@@ -313,6 +313,19 @@ function maybeFindDetectedFramework(
 			assert(wakuSettings);
 			return wakuSettings;
 		}
+
+		if (
+			frameworkIdsFound.has("hydrogen") &&
+			frameworkIdsFound.has("react-router")
+		) {
+			// Hydrogen uses react-router under the hood, but we're only interested in the fact
+			// that Hydrogen (which isn't supported) is used
+			const hydrogenSettings = settingsForOnlyKnownFrameworks.find(
+				({ framework }) => framework.id === "hydrogen"
+			);
+			assert(hydrogenSettings);
+			return hydrogenSettings;
+		}
 	}
 
 	// If we've detected multiple frameworks, and we're in a non interactive session (e.g. CI) let's stay on the safe side and error
