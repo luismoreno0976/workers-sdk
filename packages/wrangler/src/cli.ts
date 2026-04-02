@@ -9,6 +9,7 @@ import { FatalError } from "@cloudflare/workers-utils";
 import { hideBin } from "yargs/helpers";
 import {
 	convertConfigBindingsToStartWorkerBindings,
+	createServer,
 	DevEnv,
 	getPlatformProxy,
 	maybeStartOrUpdateRemoteProxySession,
@@ -37,6 +38,7 @@ import type {
 	Unstable_MiniflareWorkerOptions,
 	Unstable_RawConfig,
 	Unstable_RawEnvironment,
+	WorkerServer,
 } from "./api";
 import type { Logger } from "./logger";
 import type { Request, Response } from "miniflare";
@@ -64,6 +66,7 @@ export {
 	unstable_pages,
 	DevEnv as unstable_DevEnv,
 	startWorker as unstable_startWorker,
+	createServer,
 	unstable_getVarsForDev,
 	unstable_readConfig,
 	unstable_getDurableObjectClassNameToUseSQLiteMap,
@@ -79,6 +82,7 @@ export type {
 	Unstable_Config,
 	Unstable_RawConfig,
 	Unstable_RawEnvironment,
+	WorkerServer,
 	GetPlatformProxyOptions,
 	PlatformProxy,
 	SourcelessWorkerOptions,
